@@ -13,6 +13,8 @@ func main() {
 	r := gin.Default()
 
 	r.GET("/eventos", controllers.GetEventos)
+	r.POST("/register", controllers.Register)
+	r.POST("/login", controllers.Login)
 
 	r.Run(":8080")
 }
