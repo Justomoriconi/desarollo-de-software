@@ -8,3 +8,7 @@ import (
 func GetEventos() ([]domain.Evento, error) {
 	return dao.GetEventos()
 }
+
+func GetEventoByID(id uint) (*domain.Evento, error) {
+	return dao.GetEventoByID(id)
+}

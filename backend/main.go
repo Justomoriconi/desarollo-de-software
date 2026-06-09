@@ -21,6 +21,7 @@ func main() {
 		middlewares.AuthMiddleware(),
 		controllers.GetPerfil,
 	)
+	r.GET("/eventos/:id", controllers.GetEventoByID)
 
 	r.Run(":8080")
 }
