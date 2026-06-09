@@ -60,3 +60,14 @@ func Login(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"token": token})
 
 }
+
+func GetPerfil(c *gin.Context) {
+
+	userID, _ := c.Get("user_id")
+	rol, _ := c.Get("rol")
+
+	c.JSON(http.StatusOK, gin.H{
+		"user_id": userID,
+		"rol":     rol,
+	})
+}
