@@ -3,8 +3,9 @@ package controllers
 import (
 	"backend/dto"
 	"backend/services"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func Register(c *gin.Context) {
@@ -14,7 +15,6 @@ func Register(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Datos invalidos",
 		})
-
 		return
 	}
 
@@ -25,12 +25,12 @@ func Register(c *gin.Context) {
 	)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "Error al registrar  usuario",
+			"error": "Error al registrar usuario",
 		})
+		return
 	}
 
 	c.JSON(http.StatusCreated, id)
-
 }
 
 func Login(c *gin.Context) {
@@ -40,7 +40,6 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Datos invalidos",
 		})
-
 		return
 	}
 
@@ -53,12 +52,10 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"error": err.Error(),
 		})
-
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"token": token})
-
 }
 
 func GetPerfil(c *gin.Context) {
