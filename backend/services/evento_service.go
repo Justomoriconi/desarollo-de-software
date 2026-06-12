@@ -5,8 +5,8 @@ import (
 	"backend/domain"
 )
 
-func GetEventos() ([]domain.Evento, error) {
-	return dao.GetEventos()
+func GetEventos(nombre string, estado string) ([]domain.Evento, error) {
+	return dao.GetEventos(nombre, estado)
 }
 
 func GetEventoByID(id uint) (*domain.Evento, error) {

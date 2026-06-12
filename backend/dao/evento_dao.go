@@ -2,9 +2,20 @@ package dao
 
 import "backend/domain"
 
-func GetEventos() ([]domain.Evento, error) {
+func GetEventos(nombre string, estado string) ([]domain.Evento, error) {
 	var eventos []domain.Evento
-	result := DB.Find(&eventos)
+
+	query := DB
+
+	if nombre != "" {
+		query = query.Where("nombre LIKE ?", "%"+nombre+"%")
+	}
+
+	if estado != "" {
+		query = query.Where("estado = ?", estado)
+	}
+
+	result := query.Find(&eventos)
 	return eventos, result.Error
 }
 
