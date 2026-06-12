@@ -1,0 +1,65 @@
+@startuml DER_Ticketera
+hide circle
+skinparam linetype ortho
+
+entity "usuarios" as usuarios {
+  * id : BIGINT <<PK>>
+  --
+  * nombre : VARCHAR
+  * email : VARCHAR <<UNIQUE>>
+  * password_hash : VARCHAR
+  * rol : ENUM(CLIENTE, ADMIN)
+}
+
+entity "eventos" as eventos {
+  * id : BIGINT <<PK>>
+  --
+  * nombre : VARCHAR
+  descripcion : TEXT
+  * fecha : DATETIME
+  * lugar : VARCHAR
+  * estado : VARCHAR
+}
+
+entity "tipo_entradas" as tipo_entradas {
+  * id : BIGINT <<PK>>
+  --
+  * nombre : VARCHAR
+  * precio : DECIMAL
+  * stock_disponible : INT
+  --
+  * evento_id : BIGINT <<FK>>
+}
+
+entity "cupons" as cupons {
+  * id : BIGINT <<PK>>
+  --
+  * codigo : VARCHAR <<UNIQUE>>
+  * tipo_descuento : VARCHAR
+  * valor_descuento : DECIMAL
+  * fecha_vencimiento : DATETIME
+  * limite_usos : INT
+  * usos_actuales : INT
+  * estado : VARCHAR
+  --
+  evento_id : BIGINT <<FK, NULL>>
+}
+
+entity "tickets" as tickets {
+  * id : BIGINT <<PK>>
+  --
+  * fecha_compra : DATETIME
+  * precio_pagado : DECIMAL
+  * estado : VARCHAR
+  --
+  * usuario_id : BIGINT <<FK>>
+  * tipo_entrada_id : BIGINT <<FK>>
+  cupon_id : BIGINT <<FK, NULL>>
+}
+
+eventos        ||--o{ tipo_entradas
+usuarios       ||--o{ tickets
+tipo_entradas  ||--o{ tickets
+eventos        |o--o{ cupons    : "NULL = general"
+cupons         |o--o{ tickets   : "NULL = sin cupon"
+@enduml
