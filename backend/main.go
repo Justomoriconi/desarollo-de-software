@@ -4,6 +4,7 @@ import (
 	"backend/controllers"
 	"backend/dao"
 	"backend/middlewares"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,15 +14,18 @@ func main() {
 
 	r := gin.Default()
 
-	r.GET("/eventos", controllers.GetEventos)
 	r.POST("/register", controllers.Register)
 	r.POST("/login", controllers.Login)
-	r.GET(
-		"/perfil",
-		middlewares.AuthMiddleware(),
-		controllers.GetPerfil,
-	)
+
+	r.GET("/eventos", controllers.GetEventos)
 	r.GET("/eventos/:id", controllers.GetEventoByID)
+
+	r.GET("/perfil", middlewares.AuthMiddleware(), controllers.GetPerfil)
+
+	r.POST("/tickets", middlewares.AuthMiddleware(), controllers.ComprarTicket)
+	r.GET("/tickets", middlewares.AuthMiddleware(), controllers.GetMisTickets)
+	r.PUT("/tickets/:id/cancelar", middlewares.AuthMiddleware(), controllers.CancelarTicket)
+	r.PUT("/tickets/:id/transferir", middlewares.AuthMiddleware(), controllers.TransferirTicket)
 
 	r.Run(":8080")
 }
