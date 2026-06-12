@@ -14,11 +14,14 @@ func main() {
 
 	r := gin.Default()
 
+	r.Use(middlewares.CORSMiddleware())
+
 	r.POST("/register", controllers.Register)
 	r.POST("/login", controllers.Login)
 
 	r.GET("/eventos", controllers.GetEventos)
 	r.GET("/eventos/:id", controllers.GetEventoByID)
+	r.GET("/eventos/:id/tipos-entrada", controllers.GetTiposEntradaByEvento)
 
 	r.GET("/perfil", middlewares.AuthMiddleware(), controllers.GetPerfil)
 
