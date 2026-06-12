@@ -29,3 +29,10 @@ func GetEventoByID(id uint) (*domain.Evento, error) {
 
 	return &evento, nil
 }
+
+func GetTiposEntradaByEvento(eventoID uint) ([]domain.TipoEntrada, error) {
+	var tipos []domain.TipoEntrada
+
+	result := DB.Where("evento_id = ?", eventoID).Find(&tipos)
+	return tipos, result.Error
+}

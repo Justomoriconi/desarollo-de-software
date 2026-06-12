@@ -67,3 +67,36 @@ func GetEventoByID(c *gin.Context) {
 
 	c.JSON(http.StatusOK, response)
 }
+
+func GetTiposEntradaByEvento(c *gin.Context) {
+	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ID inválido"})
+		return
+	}
+
+	tipos, err := services.GetTiposEntradaByEvento(uint(id))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error al obtener tipos de entrada"})
+		return
+	}
+
+	type tipoEntradaResponse struct {
+		ID              uint    `json:"id"`
+		Nombre          string  `json:"nombre"`
+		Precio          float64 `json:"precio"`
+		StockDisponible int     `json:"stock_disponible"`
+	}
+
+	var response []tipoEntradaResponse
+	for _, t := range tipos {
+		response = append(response, tipoEntradaResponse{
+			ID:              t.ID,
+			Nombre:          t.Nombre,
+			Precio:          t.Precio,
+			StockDisponible: t.StockDisponible,
+		})
+	}
+
+	c.JSON(http.StatusOK, response)
+}
