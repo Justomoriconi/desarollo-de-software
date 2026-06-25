@@ -6,6 +6,7 @@ import (
 	"backend/utils"
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -112,4 +113,8 @@ func TestCancelarTicket_HTTP_Success(t *testing.T) {
 	if w.Code != http.StatusOK {
 		t.Errorf("se esperaba 200, se obtuvo %d. Body: %s", w.Code, w.Body.String())
 	}
+}
+
+func itoa(n uint) string {
+	return fmt.Sprintf("%d", n)
 }
