@@ -46,3 +46,9 @@ type TipoEntradaReporte struct {
 	StockDisponible int     `json:"stock_disponible"`
 	Vendidas        int     `json:"vendidas"`
 }
+
+type CrearTipoEntradaRequest struct {
+	Nombre          string  `json:"nombre" binding:"required"`
+	Precio          float64 `json:"precio" binding:"required"`
+	StockDisponible int     `json:"stock_disponible" binding:"required"`
+}

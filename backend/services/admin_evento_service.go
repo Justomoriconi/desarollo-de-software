@@ -126,3 +126,27 @@ func GetReporteEvento(eventoID uint) (*dto.ReporteEventoResponse, error) {
 
 	return reporte, nil
 }
+
+func CrearTipoEntrada(eventoID uint, req dto.CrearTipoEntradaRequest) (*domain.TipoEntrada, error) {
+	_, err := dao.GetEventoByID(eventoID)
+	if err != nil {
+		return nil, errors.New("evento no encontrado")
+	}
+
+	tipo := &domain.TipoEntrada{
+		Nombre:          req.Nombre,
+		Precio:          req.Precio,
+		StockDisponible: req.StockDisponible,
+		EventoID:        eventoID,
+	}
+
+	if err := dao.CrearTipoEntrada(tipo); err != nil {
+		return nil, errors.New("error al crear el tipo de entrada")
+	}
+
+	return tipo, nil
+}
+
+func EliminarTipoEntrada(id uint) error {
+	return dao.EliminarTipoEntrada(id)
+}
