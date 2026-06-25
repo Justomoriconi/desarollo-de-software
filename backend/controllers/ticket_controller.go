@@ -14,12 +14,10 @@ func getUserID(c *gin.Context) (uint, bool) {
 	if !exists {
 		return 0, false
 	}
-
 	idFloat, ok := value.(float64)
 	if !ok {
 		return 0, false
 	}
-
 	return uint(idFloat), true
 }
 
@@ -30,21 +28,29 @@ func ComprarTicket(c *gin.Context) {
 		return
 	}
 
-	var request dto.ComprarTicketRequest
+	var request dto.ComprarConCuponRequest
 	if err := c.ShouldBind(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Datos invalidos"})
 		return
 	}
 
-	ticket, err := services.ComprarTicket(usuarioID, request.TipoEntradaID)
+	var ticket interface{}
+	var err error
+
+	if request.CodigoCupon != "" {
+		ticket, err = services.ComprarTicketConCupon(usuarioID, request.TipoEntradaID, request.CodigoCupon)
+	} else {
+		ticket, err = services.ComprarTicket(usuarioID, request.TipoEntradaID)
+	}
+
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
-		"mensaje":   "Compra realizada con éxito",
-		"ticket_id": ticket.ID,
+		"mensaje": "Compra realizada con éxito",
+		"ticket":  ticket,
 	})
 }
 

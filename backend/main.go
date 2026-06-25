@@ -27,14 +27,20 @@ func main() {
 	r.GET("/tickets", middlewares.AuthMiddleware(), controllers.GetMisTickets)
 	r.PUT("/tickets/:id/cancelar", middlewares.AuthMiddleware(), controllers.CancelarTicket)
 	r.PUT("/tickets/:id/transferir", middlewares.AuthMiddleware(), controllers.TransferirTicket)
+	r.POST("/cupones/validar", middlewares.AuthMiddleware(), controllers.ValidarCupon)
 
-	// Rutas admin (token + rol ADMIN)
+	// Rutas admin
 	admin := r.Group("/admin", middlewares.AuthMiddleware(), middlewares.AdminMiddleware())
 	{
 		admin.POST("/eventos", controllers.CrearEvento)
 		admin.PUT("/eventos/:id", controllers.ActualizarEvento)
 		admin.PUT("/eventos/:id/cancelar", controllers.CancelarEventoAdmin)
 		admin.GET("/eventos/:id/reporte", controllers.GetReporteEvento)
+
+		admin.GET("/cupones", controllers.GetCupones)
+		admin.POST("/cupones", controllers.CrearCupon)
+		admin.PUT("/cupones/:id", controllers.ActualizarCupon)
+		admin.PUT("/cupones/:id/desactivar", controllers.DesactivarCupon)
 	}
 
 	r.Run(":8080")

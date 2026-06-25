@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func ComprarTicket(usuarioID uint, tipoEntradaID uint) (*domain.Ticket, error) {
+func ComprarTicket(usuarioID uint, tipoEntradaID uint, cuponID *uint, precioFinal float64) (*domain.Ticket, error) {
 	var ticket domain.Ticket
 
 	err := DB.Transaction(func(tx *gorm.DB) error {
@@ -31,12 +31,22 @@ func ComprarTicket(usuarioID uint, tipoEntradaID uint) (*domain.Ticket, error) {
 			return err
 		}
 
+		// Si se usó cupón, incrementar usos
+		if cuponID != nil {
+			if err := tx.Model(&domain.Cupon{}).
+				Where("id = ?", *cuponID).
+				Update("usos_actuales", gorm.Expr("usos_actuales + 1")).Error; err != nil {
+				return err
+			}
+		}
+
 		ticket = domain.Ticket{
 			FechaCompra:   time.Now(),
-			PrecioPagado:  tipoEntrada.Precio,
+			PrecioPagado:  precioFinal,
 			Estado:        "ACTIVO",
 			UsuarioID:     usuarioID,
 			TipoEntradaID: tipoEntradaID,
+			CuponID:       cuponID,
 		}
 
 		return tx.Create(&ticket).Error

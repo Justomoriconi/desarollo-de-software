@@ -7,7 +7,17 @@ import (
 )
 
 func ComprarTicket(usuarioID uint, tipoEntradaID uint) (*domain.Ticket, error) {
-	return dao.ComprarTicket(usuarioID, tipoEntradaID)
+	return dao.ComprarTicket(usuarioID, tipoEntradaID, nil, 0)
+}
+
+func ComprarTicketConCupon(usuarioID uint, tipoEntradaID uint, codigoCupon string) (*domain.Ticket, error) {
+	// Validar cupón y obtener precio final
+	validacion, err := ValidarCupon(codigoCupon, tipoEntradaID)
+	if err != nil {
+		return nil, err
+	}
+
+	return dao.ComprarTicket(usuarioID, tipoEntradaID, &validacion.CuponID, validacion.PrecioFinal)
 }
 
 func GetMisTickets(usuarioID uint) ([]domain.Ticket, error) {

@@ -36,3 +36,12 @@ func GetTiposEntradaByEvento(eventoID uint) ([]domain.TipoEntrada, error) {
 	result := DB.Where("evento_id = ?", eventoID).Find(&tipos)
 	return tipos, result.Error
 }
+
+func GetTiposEntradaByID(id uint) (*domain.TipoEntrada, error) {
+	var tipo domain.TipoEntrada
+	result := DB.First(&tipo, id)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &tipo, nil
+}
