@@ -31,3 +31,11 @@ func GetReporteEvento(eventoID uint) (*domain.Evento, []domain.Ticket, error) {
 
 	return &evento, tickets, err
 }
+
+func CrearTipoEntrada(tipo *domain.TipoEntrada) error {
+	return DB.Create(tipo).Error
+}
+
+func EliminarTipoEntrada(id uint) error {
+	return DB.Delete(&domain.TipoEntrada{}, id).Error
+}

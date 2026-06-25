@@ -109,3 +109,67 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+/* Admin */
+.link-admin { color: #f39c12 !important; font-weight: bold; }
+
+.tabla-admin {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.tabla-admin th {
+  background: #1a1a2e;
+  color: white;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+}
+.tabla-admin td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.9rem;
+}
+.tabla-admin tr:last-child td { border-bottom: none; }
+.tabla-admin tr:hover td { background: #f9f9f9; }
+
+/* Métricas reporte */
+.reporte-metricas {
+  display: flex;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+.metrica {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  flex: 1;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.metrica-valor { font-size: 2.5rem; font-weight: bold; color: #1a1a2e; }
+.metrica-label { font-size: 0.875rem; color: #666; }
+
+/* Cupón en detalle */
+.cupon-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+.cupon-row input {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  width: 200px;
+}
+.error-inline { color: #c0392b; font-size: 0.8rem; }
+.exito-inline { color: #1e8449; font-size: 0.8rem; font-weight: bold; }

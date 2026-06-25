@@ -77,3 +77,40 @@ func GetReporteEvento(c *gin.Context) {
 
 	c.JSON(http.StatusOK, reporte)
 }
+
+func CrearTipoEntrada(c *gin.Context) {
+	eventoID, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ID de evento inválido"})
+		return
+	}
+
+	var request dto.CrearTipoEntradaRequest
+	if err := c.ShouldBindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Datos inválidos: " + err.Error()})
+		return
+	}
+
+	tipo, err := services.CrearTipoEntrada(uint(eventoID), request)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, tipo)
+}
+
+func EliminarTipoEntrada(c *gin.Context) {
+	id, err := strconv.ParseUint(c.Param("tipoId"), 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ID inválido"})
+		return
+	}
+
+	if err := services.EliminarTipoEntrada(uint(id)); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"mensaje": "Tipo de entrada eliminado"})
+}

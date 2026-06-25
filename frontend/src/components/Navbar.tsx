@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
-  const { isLoggedIn, logout } = useAuth();
+  const { isLoggedIn, userRol, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -17,6 +17,9 @@ export default function Navbar() {
         <Link to="/">Eventos</Link>
         {isLoggedIn ? (
           <>
+            {userRol === "ADMIN" && (
+              <Link to="/admin" className="link-admin">⚙️ Admin</Link>
+            )}
             <Link to="/mis-entradas">Mis Entradas</Link>
             <button onClick={handleLogout} className="btn-link">
               Cerrar sesión
