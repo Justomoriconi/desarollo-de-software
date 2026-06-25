@@ -15,32 +15,29 @@ func setupTestDB(t *testing.T) {
 	}
 
 	schema := `
-	CREATE TABLE usuarios (
+	CREATE TABLE IF NOT EXISTS usuarios (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		nombre TEXT NOT NULL,
 		email TEXT NOT NULL UNIQUE,
 		password_hash TEXT NOT NULL,
 		rol TEXT NOT NULL
 	);
-
-	CREATE TABLE eventos (
+	CREATE TABLE IF NOT EXISTS eventos (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		nombre TEXT NOT NULL,
 		descripcion TEXT,
 		fecha DATETIME NOT NULL,
 		lugar TEXT NOT NULL,
-		estado TEXT NOT NULL
+		estado TEXT NOT NULL DEFAULT 'ACTIVO'
 	);
-
-	CREATE TABLE tipo_entradas (
+	CREATE TABLE IF NOT EXISTS tipo_entradas (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		nombre TEXT NOT NULL,
 		precio REAL NOT NULL,
 		stock_disponible INTEGER NOT NULL,
 		evento_id INTEGER NOT NULL
 	);
-
-	CREATE TABLE cupons (
+	CREATE TABLE IF NOT EXISTS cupons (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		codigo TEXT NOT NULL UNIQUE,
 		tipo_descuento TEXT NOT NULL,
@@ -48,15 +45,14 @@ func setupTestDB(t *testing.T) {
 		fecha_vencimiento DATETIME NOT NULL,
 		limite_usos INTEGER NOT NULL,
 		usos_actuales INTEGER NOT NULL DEFAULT 0,
-		estado TEXT NOT NULL,
+		estado TEXT NOT NULL DEFAULT 'ACTIVO',
 		evento_id INTEGER NOT NULL
 	);
-
-	CREATE TABLE tickets (
+	CREATE TABLE IF NOT EXISTS tickets (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		fecha_compra DATETIME NOT NULL,
 		precio_pagado REAL NOT NULL,
-		estado TEXT NOT NULL,
+		estado TEXT NOT NULL DEFAULT 'ACTIVO',
 		usuario_id INTEGER NOT NULL,
 		tipo_entrada_id INTEGER NOT NULL,
 		cupon_id INTEGER
