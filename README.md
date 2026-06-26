@@ -16,7 +16,6 @@ Sistema tipo Ticketek para la gestión de eventos y venta de entradas. Permite a
 - [Diagrama de Base de Datos](#diagrama-de-base-de-datos)
 - [Decisiones de Diseño](#decisiones-de-diseño)
 - [Testing](#testing)
-- [Capturas de Pantalla](#capturas-de-pantalla)
 
 ## Tecnologías Utilizadas
 
